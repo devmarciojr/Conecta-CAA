@@ -18,12 +18,24 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 from . import views
+import os
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('caaordserv.urls')),
+
+    # Redireciona a raiz "/" direto pro index do caaordserv
+    path('', RedirectView.as_view(pattern_name='caaordserv', permanent=False)),
+
+    # URLs dos apps
+    path('caaordserv/', include('caaordserv.urls')),
     path('authentication/', include('authentication.urls')),
     path('relatorios/', include('relatorios.urls')),
     path('sobre/', views.sobre, name='sobre'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+# Servir arquivos estáticos e mídia em DEBUG
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=os.path.join(settings.BASE_DIR, 'static'))
