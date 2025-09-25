@@ -2,7 +2,7 @@ from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='caaordserv'),
+    path('', views.index, name='caaordserv'), 
     path('add-ordem/', views.add_ordem, name='add_ordem'),
     re_path(r'^edit-ordem/(?P<processo>[^/]+(?:/[^/]+)?)/$', views.edit_ordem, name='edit_ordem'),
     re_path(r'^delete-ordem/(?P<processo>[^/]+(?:/[^/]+)?)/$', views.delete_ordem, name='delete_ordem'),
